@@ -78,3 +78,30 @@ if(!function_exists("base64_image_content")){
         }
     }
 }
+
+if(!function_exists("curPageURL")){
+    /**
+     * 获取当前页面url 不带参数
+     * @return string
+     */
+    function curPageURL(){
+        $pageURL = 'http';
+        if ($_SERVER["HTTPS"] == "on") {
+            $pageURL .= "s";
+        }
+        $pageURL .= "://";
+        $this_page = $_SERVER["REQUEST_URI"];
+        // 只取 ? 前面的内容
+        if (strpos($this_page, "?") !== false) {
+            $this_pages = explode("?", $this_page);
+            $this_page = reset($this_pages);
+        }
+
+        if ($_SERVER["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page;
+        } else {
+            $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
+        }
+        return $pageURL;
+    }
+}
